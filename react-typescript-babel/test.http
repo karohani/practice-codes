@@ -1,0 +1,7 @@
+POST http://localhost:4000/storage/v1/files
+Content-Type: multipart/form-data
+
+< under_1m_file.png
+
+#
+GET http://localhost:4000/api/ping

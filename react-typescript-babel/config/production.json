@@ -1,0 +1,27 @@
+{
+  "partner": {
+    "api": "https://pg-api.kakao.com"
+  },
+  "wakanda": {
+    "query" : "https://wakanda-query-app.kakaopay.com",
+    "mgmt" : "https://wakanda-mgmt-app.kakaopay.com",
+    "aml" : "https://wakanda-aml-app.kakaopay.com",
+    "worker": "https://wakanda-internal-worker-api.kakaopay.com",
+    "scheduler": "https://wakanda-internal-scheduler-api.kakaopay.com",
+    "storage": "https://wakanda-storage-api.kakaopay.com"
+  },
+  "auth": {
+    "api": "https://pay-admin-auth.kakao.com",
+    "login": "https://pay-admin.kakaosecure.net/login?redirect_url="
+  },
+  "voyager": {
+    "api": "https://settlement-api.kakao.com",
+    "gateway": "https://settlement-gateway.kakaopay.com"
+  },
+  "cerebro": {
+    "api": "https://cerebro-internal-api.kakaopay.com"
+  },
+  "alipay": {
+    "api": "https://wakanda-alipay-transfer-app.kakaopay.com"
+  }
+}

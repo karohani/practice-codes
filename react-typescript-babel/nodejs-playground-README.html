@@ -1,0 +1,587 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-11-19 Fri 17:27 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>nodejs-express 환경 설정하기</title>
+<meta name="author" content="전파고양이" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+</style>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">nodejs-express 환경 설정하기</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org3b2e6cd">1. config json으로 환경 변수 읽어오기</a></li>
+<li><a href="#orgd19474f">2. pm2-dev를 이용해서 hot-reloading 사용하기</a></li>
+<li><a href="#orga63a7b5">3. typescript</a></li>
+<li><a href="#org1ca9f43">4. Tsconfig에 대해서 Document를 보려면 다음 링크에서 참고한다.</a></li>
+<li><a href="#org36a49d8">5. pm2, node설치</a></li>
+<li><a href="#org0ae81ea">6. Tsconfig에서 SourceMap?</a></li>
+<li><a href="#org0526c3c">7. 특정 파일을 빌드하고 싶을 때</a></li>
+<li><a href="#orgfebed37">8. react client module 설치</a>
+<ul>
+<li><a href="#orgff11474">8.1. babel.config.js</a></li>
+<li><a href="#org75a9467">8.2. webpack 설정</a>
+<ul>
+<li><a href="#org95fc2b1">8.2.1. HotReload 설정</a></li>
+<li><a href="#orga4f7a43">8.2.2. webpack.ProvidePlugin옵션</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgbed4c89">9. Trouble</a>
+<ul>
+<li><a href="#org02a0d9d">9.1. type error</a></li>
+<li><a href="#org949ff92">9.2. tsc-watch Typescript에서 Node-Express Hot Reloading</a></li>
+<li><a href="#org4c6d9ea">9.3. React Hook의 원리를 간단하게 알아보기</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org3b2e6cd" class="outline-2">
+<h2 id="org3b2e6cd"><span class="section-number-2">1.</span> config json으로 환경 변수 읽어오기</h2>
+<div class="outline-text-2" id="text-1">
+<div class="org-src-container">
+<pre class="src src-sh">npm i config
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-sh">curl localhost:4000
+</pre>
+</div>
+
+<pre class="example">
+hello word
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgd19474f" class="outline-2">
+<h2 id="orgd19474f"><span class="section-number-2">2.</span> pm2-dev를 이용해서 hot-reloading 사용하기</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+package.json의 scripts에 아래와 같이 서버 Script를 넣어준다. NODE_ENV 환경 변수를 PHASE로 받아서 할당한다. timstamp option을 넣으면 log가 실행된다. 
+</p>
+<div class="org-src-container">
+<pre class="src src-json">{
+    <span style="color: #859900; font-weight: bold;">"scripts"</span>: {
+        <span style="color: #859900; font-weight: bold;">"server"</span>: <span style="color: #2aa198;">"NODE_APP_INSTANCE='' DANGEROUSLY_DISABLE_HOST_CHECK=true NODE_ENV=${PHASE} pm2-dev --timestamp start app.js"</span>,
+        <span style="color: #859900; font-weight: bold;">"test"</span>: <span style="color: #2aa198;">"echo \"Error: no test specified\" &amp;&amp; exit 1"</span>
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga63a7b5" class="outline-2">
+<h2 id="orga63a7b5"><span class="section-number-2">3.</span> typescript</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+<pre class="src src-sh">tsc --init
+</pre>
+</div>
+
+<p>
+위의 커맨드를 실행하면 tsconfig.json이 생성된다. 
+</p>
+<div class="org-src-container">
+<pre class="src src-json">{
+  <span style="color: #859900; font-weight: bold;">"compilerOptions"</span>: {
+    /* Visit https://aka.ms/tsconfig.json to read more about this file */
+
+    /* Basic Options */
+    // <span style="color: #859900; font-weight: bold;">"incremental"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                         /* Enable incremental compilation */
+    <span style="color: #859900; font-weight: bold;">"target"</span>: <span style="color: #2aa198;">"es5"</span>,                                /* Specify ECMAScript target version: 'ES<span style="color: #268bd2; font-weight: bold;">3</span>' (default), 'ES<span style="color: #268bd2; font-weight: bold;">5</span>', 'ES<span style="color: #268bd2; font-weight: bold;">2015</span>', 'ES<span style="color: #268bd2; font-weight: bold;">2016</span>', 'ES<span style="color: #268bd2; font-weight: bold;">2017</span>', 'ES<span style="color: #268bd2; font-weight: bold;">2018</span>', 'ES<span style="color: #268bd2; font-weight: bold;">2019</span>', 'ES<span style="color: #268bd2; font-weight: bold;">2020</span>', 'ES<span style="color: #268bd2; font-weight: bold;">2021</span>', or 'ESNEXT'. */
+    <span style="color: #859900; font-weight: bold;">"module"</span>: <span style="color: #2aa198;">"commonjs"</span>,                           /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es<span style="color: #268bd2; font-weight: bold;">2015</span>', 'es<span style="color: #268bd2; font-weight: bold;">2020</span>', or 'ESNext'. */
+    // <span style="color: #859900; font-weight: bold;">"lib"</span>: [],                                   /* Specify library files to be included in the compilation. */
+    // <span style="color: #859900; font-weight: bold;">"allowJs"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                             /* Allow javascript files to be compiled. */
+    // <span style="color: #859900; font-weight: bold;">"checkJs"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                             /* Report errors in .js files. */
+    // <span style="color: #859900; font-weight: bold;">"jsx"</span>: <span style="color: #2aa198;">"preserve"</span>,                           /* Specify JSX code generation: 'preserve', 'react-native', 'react', 'react-jsx' or 'react-jsxdev'. */
+    // <span style="color: #859900; font-weight: bold;">"declaration"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                         /* Generates corresponding '.d.ts' file. */
+    // <span style="color: #859900; font-weight: bold;">"declarationMap"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                      /* Generates a sourcemap for each corresponding '.d.ts' file. */
+    // <span style="color: #859900; font-weight: bold;">"sourceMap"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                           /* Generates corresponding '.map' file. */
+    // <span style="color: #859900; font-weight: bold;">"outFile"</span>: <span style="color: #2aa198;">"./"</span>,                             /* Concatenate and emit output to single file. */
+    // <span style="color: #859900; font-weight: bold;">"outDir"</span>: <span style="color: #2aa198;">"./"</span>,                              /* Redirect output structure to the directory. */
+    // <span style="color: #859900; font-weight: bold;">"rootDir"</span>: <span style="color: #2aa198;">"./"</span>,                             /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+    // <span style="color: #859900; font-weight: bold;">"composite"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                           /* Enable project compilation */
+    // <span style="color: #859900; font-weight: bold;">"tsBuildInfoFile"</span>: <span style="color: #2aa198;">"./"</span>,                     /* Specify file to store incremental compilation information */
+    // <span style="color: #859900; font-weight: bold;">"removeComments"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                      /* Do not emit comments to output. */
+    // <span style="color: #859900; font-weight: bold;">"noEmit"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                              /* Do not emit outputs. */
+    // <span style="color: #859900; font-weight: bold;">"importHelpers"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                       /* Import emit helpers from 'tslib'. */
+    // <span style="color: #859900; font-weight: bold;">"downlevelIteration"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                  /* Provide full support for iterables in 'for-of', spread, and destructuring when targeting 'ES<span style="color: #268bd2; font-weight: bold;">5</span>' or 'ES<span style="color: #268bd2; font-weight: bold;">3</span>'. */
+    // <span style="color: #859900; font-weight: bold;">"isolatedModules"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                     /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */
+
+    /* Strict Type-Checking Options */
+    <span style="color: #859900; font-weight: bold;">"strict"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                                 /* Enable all strict type-checking options. */
+    // <span style="color: #859900; font-weight: bold;">"noImplicitAny"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                       /* Raise error on expressions and declarations with an implied 'any' type. */
+    // <span style="color: #859900; font-weight: bold;">"strictNullChecks"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                    /* Enable strict <span style="color: #268bd2; font-weight: bold;">null</span> checks. */
+    // <span style="color: #859900; font-weight: bold;">"strictFunctionTypes"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                 /* Enable strict checking of function types. */
+    // <span style="color: #859900; font-weight: bold;">"strictBindCallApply"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                 /* Enable strict 'bind', 'call', and 'apply' methods on functions. */
+    // <span style="color: #859900; font-weight: bold;">"strictPropertyInitialization"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,        /* Enable strict checking of property initialization in classes. */
+    // <span style="color: #859900; font-weight: bold;">"noImplicitThis"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                      /* Raise error on 'this' expressions with an implied 'any' type. */
+    // <span style="color: #859900; font-weight: bold;">"alwaysStrict"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                        /* Parse in strict mode and emit <span style="color: #2aa198;">"use strict"</span> for each source file. */
+
+    /* Additional Checks */
+    // <span style="color: #859900; font-weight: bold;">"noUnusedLocals"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                      /* Report errors on unused locals. */
+    // <span style="color: #859900; font-weight: bold;">"noUnusedParameters"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                  /* Report errors on unused parameters. */
+    // <span style="color: #859900; font-weight: bold;">"noImplicitReturns"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                   /* Report error when not all code paths in function return a value. */
+    // <span style="color: #859900; font-weight: bold;">"noFallthroughCasesInSwitch"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,          /* Report errors for fallthrough cases in switch statement. */
+    // <span style="color: #859900; font-weight: bold;">"noUncheckedIndexedAccess"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,            /* Include 'undefined' in index signature results */
+    // <span style="color: #859900; font-weight: bold;">"noImplicitOverride"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                  /* Ensure overriding members in derived classes are marked with an 'override' modifier. */
+    // <span style="color: #859900; font-weight: bold;">"noPropertyAccessFromIndexSignature"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,  /* Require undeclared properties from index signatures to use element accesses. */
+
+    /* Module Resolution Options */
+    // <span style="color: #859900; font-weight: bold;">"moduleResolution"</span>: <span style="color: #2aa198;">"node"</span>,                  /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-<span style="color: #268bd2; font-weight: bold;">1.6</span>). */
+    // <span style="color: #859900; font-weight: bold;">"baseUrl"</span>: <span style="color: #2aa198;">"./"</span>,                             /* Base directory to resolve non-absolute module names. */
+    // <span style="color: #859900; font-weight: bold;">"paths"</span>: {},                                 /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
+    // <span style="color: #859900; font-weight: bold;">"rootDirs"</span>: [],                              /* List of root folders whose combined content represents the structure of the project at runtime. */
+    // <span style="color: #859900; font-weight: bold;">"typeRoots"</span>: [],                             /* List of folders to include type definitions from. */
+    // <span style="color: #859900; font-weight: bold;">"types"</span>: [],                                 /* Type declaration files to be included in compilation. */
+    // <span style="color: #859900; font-weight: bold;">"allowSyntheticDefaultImports"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,        /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
+    <span style="color: #859900; font-weight: bold;">"esModuleInterop"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                        /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
+    // <span style="color: #859900; font-weight: bold;">"preserveSymlinks"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                    /* Do not resolve the real path of symlinks. */
+    // <span style="color: #859900; font-weight: bold;">"allowUmdGlobalAccess"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                /* Allow accessing UMD globals from modules. */
+
+    /* Source Map Options */
+    // <span style="color: #859900; font-weight: bold;">"sourceRoot"</span>: <span style="color: #2aa198;">""</span>,                            /* Specify the location where debugger should locate TypeScript files instead of source locations. */
+    // <span style="color: #859900; font-weight: bold;">"mapRoot"</span>: <span style="color: #2aa198;">""</span>,                               /* Specify the location where debugger should locate map files instead of generated locations. */
+    // <span style="color: #859900; font-weight: bold;">"inlineSourceMap"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                     /* Emit a single file with source maps instead of having a separate file. */
+    // <span style="color: #859900; font-weight: bold;">"inlineSources"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                       /* Emit the source alongside the sourcemaps within a single file; requires '--inlineSourceMap' or '--sourceMap' to be set. */
+
+    /* Experimental Options */
+    // <span style="color: #859900; font-weight: bold;">"experimentalDecorators"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,              /* Enables experimental support for ES<span style="color: #268bd2; font-weight: bold;">7</span> decorators. */
+    // <span style="color: #859900; font-weight: bold;">"emitDecoratorMetadata"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,               /* Enables experimental support for emitting type metadata for decorators. */
+
+    /* Advanced Options */
+    <span style="color: #859900; font-weight: bold;">"skipLibCheck"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>,                           /* Skip type checking of declaration files. */
+    <span style="color: #859900; font-weight: bold;">"forceConsistentCasingInFileNames"</span>: <span style="color: #268bd2; font-weight: bold;">true</span>        /* Disallow inconsistently-cased references to the same file. */
+  }
+}
+
+</pre>
+</div>
+
+<p>
+설정을 보면 크게 아래의 옵션들이 있다. 
+</p>
+<ul class="org-ul">
+<li>Basic Option</li>
+<li>Strict TypeChecking Options</li>
+<li>Additional Check</li>
+<li>Module Resolution Option</li>
+<li>Advanced Option</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org1ca9f43" class="outline-2">
+<h2 id="org1ca9f43"><span class="section-number-2">4.</span> Tsconfig에 대해서 Document를 보려면 다음 링크에서 참고한다.</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+<a href="https://www.typescriptlang.org/tsconfig">https://www.typescriptlang.org/tsconfig</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org36a49d8" class="outline-2">
+<h2 id="org36a49d8"><span class="section-number-2">5.</span> pm2, node설치</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+npm install &#x2013;save-dev pm2 ts-node
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0ae81ea" class="outline-2">
+<h2 id="org0ae81ea"><span class="section-number-2">6.</span> Tsconfig에서 SourceMap?</h2>
+<div class="outline-text-2" id="text-6">
+<p width="800px">
+<img src="../../../../orgmode/images/2021-11-06_21-29-29_screenshot.png" alt="2021-11-06_21-29-29_screenshot.png" width="800px" />
+위와 같이 설정하고 나면 tsc만 실행해도 build경로에 파일들이 들어온다. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0526c3c" class="outline-2">
+<h2 id="org0526c3c"><span class="section-number-2">7.</span> 특정 파일을 빌드하고 싶을 때</h2>
+<div class="outline-text-2" id="text-7">
+<div class="org-src-container">
+<pre class="src src-sh">tsc {fileName}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfebed37" class="outline-2">
+<h2 id="orgfebed37"><span class="section-number-2">8.</span> react client module 설치</h2>
+<div class="outline-text-2" id="text-8">
+<ul class="org-ul">
+<li>client 폴더 설치</li>
+<li>npm init -y 실행 =&gt; package.json 파일 생성</li>
+<li>src/index.tsx 파일생성</li>
+<li>npm i react react-dom</li>
+<li>npm i -D typescript @types/react @types/react-dom</li>
+<li>node_modules/.bin/tsc &#x2013;init =&gt; typescript를 전역으로 설치했다면 tsc &#x2013;init</li>
+</ul>
+</div>
+<div id="outline-container-orgff11474" class="outline-3">
+<h3 id="orgff11474"><span class="section-number-3">8.1.</span> babel.config.js</h3>
+<div class="outline-text-3" id="text-8-1">
+<ul class="org-ul">
+<li>babel-loader @babel/core @babel/preset-env
+<ul class="org-ul">
+<li>ts에 기본적으로 포함되어 있지만 쓸일이 있어서 포함시킴</li>
+</ul></li>
+<li>@babel/preset-react @babel/preset-typescript
+<ul class="org-ul">
+<li>preset 설치</li>
+</ul></li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-json">// babel.config.js
+module.exports = {
+  presets: ['@babel/preset-react', '@babel/preset-env', '@babel/preset-typescript'],
+};j
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org75a9467" class="outline-3">
+<h3 id="org75a9467"><span class="section-number-3">8.2.</span> webpack 설정</h3>
+<div class="outline-text-3" id="text-8-2">
+<ul class="org-ul">
+<li>npm i -D webpack webpack-cli webpack-dev-server</li>
+<li>npm i -D html-webpack-plugin ts-loader</li>
+<li>webpack-cli는 실행하기 위해서 필요, dev-server는 hotrealoding을 도와준다.</li>
+<li>html-webpack-plugin은&#x2026;</li>
+<li><p>
+ts-loader는 타입스크립트 코드를 설치하는데 필요하다. 
+</p>
+
+
+<div id="org465c185" class="figure">
+<p><img src="../../../../../orgmode/images/2021-11-19_17-00-24_screenshot.png" alt="2021-11-19_17-00-24_screenshot.png" width="800px" />
+</p>
+</div></li>
+</ul>
+</div>
+<div id="outline-container-org95fc2b1" class="outline-4">
+<h4 id="org95fc2b1"><span class="section-number-4">8.2.1.</span> HotReload 설정<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup></h4>
+<div class="outline-text-4" id="text-8-2-1">
+<ul class="org-ul">
+<li>webpack-dev-server는 webpack으로 번들된 파일을 인메모리에서 서빙합니다.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orga4f7a43" class="outline-4">
+<h4 id="orga4f7a43"><span class="section-number-4">8.2.2.</span> webpack.ProvidePlugin옵션</h4>
+<div class="outline-text-4" id="text-8-2-2">
+<p>
+import 또는 require없이 모듈을 모두 import할 수 있도록 하는 webpack plugin이다.
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript"><span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">webpack.ProvidePlugin</span>({
+  identifier: <span style="color: #2aa198;">'module1'</span>,
+  <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">...</span>
+});
+</pre>
+</div>
+<p>
+By default, module resolution path is current folder (./**) and node_modules.
+기본적으로 모듈을 찾는(resolve)하는 경로는 현재 폴더와 node_module 내부이다.
+</p>
+
+<p>
+Whenever the identifier is encountered as free variable in a module, the module is loaded automatically and the identifier is filled with the exports of the loaded module (or property in order to support named exports).
+</p>
+
+<p>
+식별자가 모듈에서 자유변수를 만났을 때 자동으로 모듈이 import되고 식별자는 load된 모듈로 바인드 된다
+</p>
+
+<p>
+For importing the default export of an ES2015 module, you have to specify the default property of module.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgbed4c89" class="outline-2">
+<h2 id="orgbed4c89"><span class="section-number-2">9.</span> Trouble</h2>
+<div class="outline-text-2" id="text-9">
+</div>
+<div id="outline-container-org02a0d9d" class="outline-3">
+<h3 id="org02a0d9d"><span class="section-number-3">9.1.</span> type error</h3>
+<div class="outline-text-3" id="text-9-1">
+<p>
+tsconfig에 아래와 같이 설정 되어 있었다. 
+</p>
+<pre class="example" id="orge15a5a0">
+"esModuleInterop": true
+</pre>
+<div class="org-src-container">
+<pre class="src src-sh">3 const app: express.Application = express();
+                                   ~~~~~~~
+
+  src/index.ts:1:1
+    1 import * as express from <span style="color: #2aa198;">'express'</span>;
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Type originates at this import. A namespace-style import cannot be called or constructed, and will cause a failure at runtime. Consider using a default import or import require here instead.
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org949ff92" class="outline-3">
+<h3 id="org949ff92"><span class="section-number-3">9.2.</span> tsc-watch Typescript에서 Node-Express Hot Reloading</h3>
+<div class="outline-text-3" id="text-9-2">
+<div class="org-src-container">
+<pre class="src src-sh">pm2-dev --interpreter ./node_modules/.bin/ts-node src/index.ts
+</pre>
+</div>
+
+<pre class="example" id="orga0c7519">
+2021-11-06-23:57:45 index-0  | internal/modules/cjs/loader.js:888
+2021-11-06-23:57:45 index-0  |   throw err;
+2021-11-06-23:57:45 index-0  |   ^
+2021-11-06-23:57:45 index-0  | Error: Cannot find module 'typescript'
+2021-11-06-23:57:45 index-0  | Require stack:
+</pre>
+<ul class="org-ul">
+<li>solution
+<ul class="org-ul">
+<li>왜 인지 모르겠는데 pm2 interpreter설정이 현재 경로의 node_moduls에 있는 파일들만 보는 것 같음.</li>
+</ul></li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-shell">npm install typescript --save-dev
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4c6d9ea" class="outline-3">
+<h3 id="org4c6d9ea"><span class="section-number-3">9.3.</span> React Hook의 원리를 간단하게 알아보기</h3>
+<div class="outline-text-3" id="text-9-3">
+<p>
+<a href="https://it-eldorado.tistory.com/155?category=832493">https://it-eldorado.tistory.com/155?category=832493</a>
+</p>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+: <a href="https://yoiyoy.gitbooks.io/dev/content/hot-module-replacement.html">https://yoiyoy.gitbooks.io/dev/content/hot-module-replacement.html</a>
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="author">Author: 전파고양이</p>
+<p class="date">Created: 2021-11-19 Fri 17:27</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

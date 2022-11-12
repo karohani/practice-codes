@@ -1,0 +1,255 @@
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [a3paper]
+#+LATEX_HEADER: \usepackage{kotex}
+#+LATEX_HEADER: \usepackage{CJKutf8}
+#+LATEX_HEADER: \usepackage[utf8]{inputenc}
+#+LATEX_HEADER: \usepackage{amsmath}
+#+LATEX_HEADER: \usepackage[scale=0.75,twoside,bindingoffset=5mm]{geometry}
+#+LATEX_HEADER: \usepackage[onehalfspacing]{setspace}
+#+LATEX_HEADER: \usepackage{longtable}
+#+Author:전파고양이
+#+OPTIONS: ^:{} toc:t
+#+hugo_base_dir: ~/blog
+#+title: nodejs-express 환경 설정하기 
+
+
+* config json으로 환경 변수 읽어오기
+
+#+begin_src sh
+npm i config
+#+end_src
+
+#+begin_src sh
+curl localhost:4000
+#+end_src
+
+#+RESULTS:
+: hello word
+
+* pm2-dev를 이용해서 hot-reloading 사용하기
+package.json의 scripts에 아래와 같이 서버 Script를 넣어준다. NODE_ENV 환경 변수를 PHASE로 받아서 할당한다. timstamp option을 넣으면 log가 실행된다. 
+#+begin_src json
+{
+    "scripts": {
+        "server": "NODE_APP_INSTANCE='' DANGEROUSLY_DISABLE_HOST_CHECK=true NODE_ENV=${PHASE} pm2-dev --timestamp start app.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    }
+}
+#+end_src
+
+* typescript
+#+begin_src sh
+tsc --init
+#+end_src
+
+위의 커맨드를 실행하면 tsconfig.json이 생성된다. 
+#+begin_src json
+{
+  "compilerOptions": {
+    /* Visit https://aka.ms/tsconfig.json to read more about this file */
+
+    /* Basic Options */
+    // "incremental": true,                         /* Enable incremental compilation */
+    "target": "es5",                                /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', 'ES2021', or 'ESNEXT'. */
+    "module": "commonjs",                           /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
+    // "lib": [],                                   /* Specify library files to be included in the compilation. */
+    // "allowJs": true,                             /* Allow javascript files to be compiled. */
+    // "checkJs": true,                             /* Report errors in .js files. */
+    // "jsx": "preserve",                           /* Specify JSX code generation: 'preserve', 'react-native', 'react', 'react-jsx' or 'react-jsxdev'. */
+    // "declaration": true,                         /* Generates corresponding '.d.ts' file. */
+    // "declarationMap": true,                      /* Generates a sourcemap for each corresponding '.d.ts' file. */
+    // "sourceMap": true,                           /* Generates corresponding '.map' file. */
+    // "outFile": "./",                             /* Concatenate and emit output to single file. */
+    // "outDir": "./",                              /* Redirect output structure to the directory. */
+    // "rootDir": "./",                             /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+    // "composite": true,                           /* Enable project compilation */
+    // "tsBuildInfoFile": "./",                     /* Specify file to store incremental compilation information */
+    // "removeComments": true,                      /* Do not emit comments to output. */
+    // "noEmit": true,                              /* Do not emit outputs. */
+    // "importHelpers": true,                       /* Import emit helpers from 'tslib'. */
+    // "downlevelIteration": true,                  /* Provide full support for iterables in 'for-of', spread, and destructuring when targeting 'ES5' or 'ES3'. */
+    // "isolatedModules": true,                     /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */
+
+    /* Strict Type-Checking Options */
+    "strict": true,                                 /* Enable all strict type-checking options. */
+    // "noImplicitAny": true,                       /* Raise error on expressions and declarations with an implied 'any' type. */
+    // "strictNullChecks": true,                    /* Enable strict null checks. */
+    // "strictFunctionTypes": true,                 /* Enable strict checking of function types. */
+    // "strictBindCallApply": true,                 /* Enable strict 'bind', 'call', and 'apply' methods on functions. */
+    // "strictPropertyInitialization": true,        /* Enable strict checking of property initialization in classes. */
+    // "noImplicitThis": true,                      /* Raise error on 'this' expressions with an implied 'any' type. */
+    // "alwaysStrict": true,                        /* Parse in strict mode and emit "use strict" for each source file. */
+
+    /* Additional Checks */
+    // "noUnusedLocals": true,                      /* Report errors on unused locals. */
+    // "noUnusedParameters": true,                  /* Report errors on unused parameters. */
+    // "noImplicitReturns": true,                   /* Report error when not all code paths in function return a value. */
+    // "noFallthroughCasesInSwitch": true,          /* Report errors for fallthrough cases in switch statement. */
+    // "noUncheckedIndexedAccess": true,            /* Include 'undefined' in index signature results */
+    // "noImplicitOverride": true,                  /* Ensure overriding members in derived classes are marked with an 'override' modifier. */
+    // "noPropertyAccessFromIndexSignature": true,  /* Require undeclared properties from index signatures to use element accesses. */
+
+    /* Module Resolution Options */
+    // "moduleResolution": "node",                  /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
+    // "baseUrl": "./",                             /* Base directory to resolve non-absolute module names. */
+    // "paths": {},                                 /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
+    // "rootDirs": [],                              /* List of root folders whose combined content represents the structure of the project at runtime. */
+    // "typeRoots": [],                             /* List of folders to include type definitions from. */
+    // "types": [],                                 /* Type declaration files to be included in compilation. */
+    // "allowSyntheticDefaultImports": true,        /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
+    "esModuleInterop": true,                        /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
+    // "preserveSymlinks": true,                    /* Do not resolve the real path of symlinks. */
+    // "allowUmdGlobalAccess": true,                /* Allow accessing UMD globals from modules. */
+
+    /* Source Map Options */
+    // "sourceRoot": "",                            /* Specify the location where debugger should locate TypeScript files instead of source locations. */
+    // "mapRoot": "",                               /* Specify the location where debugger should locate map files instead of generated locations. */
+    // "inlineSourceMap": true,                     /* Emit a single file with source maps instead of having a separate file. */
+    // "inlineSources": true,                       /* Emit the source alongside the sourcemaps within a single file; requires '--inlineSourceMap' or '--sourceMap' to be set. */
+
+    /* Experimental Options */
+    // "experimentalDecorators": true,              /* Enables experimental support for ES7 decorators. */
+    // "emitDecoratorMetadata": true,               /* Enables experimental support for emitting type metadata for decorators. */
+
+    /* Advanced Options */
+    "skipLibCheck": true,                           /* Skip type checking of declaration files. */
+    "forceConsistentCasingInFileNames": true        /* Disallow inconsistently-cased references to the same file. */
+  }
+}
+
+#+end_src
+
+설정을 보면 크게 아래의 옵션들이 있다. 
+- Basic Option
+- Strict TypeChecking Options
+- Additional Check
+- Module Resolution Option 
+- Advanced Option
+
+* Tsconfig에 대해서 Document를 보려면 다음 링크에서 참고한다.
+https://www.typescriptlang.org/tsconfig
+
+* pm2, node설치
+ npm install --save-dev pm2 ts-node
+
+* Tsconfig에서 SourceMap?
+
+#+DOWNLOADED: screenshot @ 2021-11-06 21:29:29
+#+attr_html: :width 800px
+#+attr_latex: :width 20cm
+#+attr_org: :width 400px
+[[file:../../../../orgmode/images/2021-11-06_21-29-29_screenshot.png]]
+위와 같이 설정하고 나면 tsc만 실행해도 build경로에 파일들이 들어온다. 
+
+* 특정 파일을 빌드하고 싶을 때
+#+begin_src sh
+tsc {fileName}
+#+end_src
+
+* react client module 설치
+- client 폴더 설치
+- npm init -y 실행 => package.json 파일 생성
+- src/index.tsx 파일생성 
+- npm i react react-dom
+- npm i -D typescript @types/react @types/react-dom
+- node_modules/.bin/tsc --init => typescript를 전역으로 설치했다면 tsc --init
+** babel.config.js
+- babel-loader @babel/core @babel/preset-env
+  - ts에 기본적으로 포함되어 있지만 쓸일이 있어서 포함시킴 
+- @babel/preset-react @babel/preset-typescript
+  - preset 설치 
+
+#+begin_src json
+// babel.config.js
+module.exports = {
+  presets: ['@babel/preset-react', '@babel/preset-env', '@babel/preset-typescript'],
+};j
+#+end_src
+** webpack 설정
+- npm i -D webpack webpack-cli webpack-dev-server
+- npm i -D html-webpack-plugin ts-loader
+- webpack-cli는 실행하기 위해서 필요, dev-server는 hotrealoding을 도와준다. 
+- html-webpack-plugin은...
+- ts-loader는 타입스크립트 코드를 설치하는데 필요하다. 
+
+  #+DOWNLOADED: screenshot @ 2021-11-19 17:00:24
+  #+attr_html: :width 800px
+  #+attr_latex: :width 20cm
+  #+attr_org: :width 400px
+  [[file:../../../../../orgmode/images/2021-11-19_17-00-24_screenshot.png]]
+*** HotReload 설정[fn:1] 
+- webpack-dev-server는 webpack으로 번들된 파일을 인메모리에서 서빙합니다. 
+*** webpack.ProvidePlugin옵션
+- https://webpack.js.org/plugins/provide-plugin/
+
+import 또는 require없이 모듈을 모두 import할 수 있도록 하는 webpack plugin이다.
+
+#+begin_src javascript
+new webpack.ProvidePlugin({
+  identifier: 'module1',
+  // ...
+});
+#+end_src
+By default, module resolution path is current folder (./**) and node_modules.
+기본적으로 모듈을 찾는(resolve)하는 경로는 현재 폴더와 node_module 내부이다.
+
+Whenever the identifier is encountered as free variable in a module, the module is loaded automatically and the identifier is filled with the exports of the loaded module (or property in order to support named exports).
+
+식별자가 모듈에서 자유변수를 만났을 때 자동으로 모듈이 import되고 식별자는 load된 모듈로 바인드 된다
+
+For importing the default export of an ES2015 module, you have to specify the default property of module.
+
+#+begin_src json
+{
+    plugins: [
+	new webpack.ProvidePlugin({
+	  React: 'react',
+	}),
+	new HtmlWebpackPlugin({
+	  template: './src/index.html',
+	})
+      ],
+}
+#+end_src
+- 위와 같이 설정하면 React라는 이름은 'react'라는 모듈의 기본 이름으로 사용된다. 
+
+* Trouble
+** type error
+tsconfig에 아래와 같이 설정 되어 있었다. 
+#+begin_example
+"esModuleInterop": true
+#+end_example
+#+begin_src sh
+3 const app: express.Application = express();
+                                   ~~~~~~~
+
+  src/index.ts:1:1
+    1 import * as express from 'express';
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Type originates at this import. A namespace-style import cannot be called or constructed, and will cause a failure at runtime. Consider using a default import or import require here instead.
+#+end_src
+
+** tsc-watch Typescript에서 Node-Express Hot Reloading
+#+begin_src sh
+pm2-dev --interpreter ./node_modules/.bin/ts-node src/index.ts
+#+end_src
+
+#+begin_example
+2021-11-06-23:57:45 index-0  | internal/modules/cjs/loader.js:888
+2021-11-06-23:57:45 index-0  |   throw err;
+2021-11-06-23:57:45 index-0  |   ^
+2021-11-06-23:57:45 index-0  | Error: Cannot find module 'typescript'
+2021-11-06-23:57:45 index-0  | Require stack:
+#+end_example
+- solution
+  - 왜 인지 모르겠는데 pm2 interpreter설정이 현재 경로의 node_moduls에 있는 파일들만 보는 것 같음.
+#+begin_src shell
+npm install typescript --save-dev
+#+end_src
+
+** React Hook의 원리를 간단하게 알아보기
+https://it-eldorado.tistory.com/155?category=832493
+
+* Footnotes
+
+[fn:1] : https://yoiyoy.gitbooks.io/dev/content/hot-module-replacement.html

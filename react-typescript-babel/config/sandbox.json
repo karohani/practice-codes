@@ -1,0 +1,27 @@
+{
+  "partner": {
+    "api": "https://sandbox-pg-api.kakao.com"
+  },
+  "wakanda": {
+    "query" : "https://sandbox-wakanda-query-app.kakaopay.com",
+    "mgmt" : "https://sandbox-wakanda-mgmt-app.kakaopay.com",
+    "aml" : "https://sandbox-wakanda-aml-app.kakaopay.com",
+    "worker": "https://sandbox-wakanda-internal-worker-api.kakaopay.com",
+    "scheduler": "https://sandbox-wakanda-internal-scheduler-api.kakaopay.com",
+    "storage": "https://sandbox-wakanda-storage-api.kakaopay.com"
+  },
+  "auth": {
+    "api": "https://sandbox-pay-admin-auth.kakao.com",
+    "login": "https://sandbox-pay-admin.kakao.com/login?redirect_url="
+  },
+  "voyager": {
+    "api": "https://sandbox-settlement-api.kakao.com",
+    "gateway": "https://sandbox-settlement-gateway.kakaopay.com"
+  },
+  "cerebro": {
+    "api": "https://sandbox-cerebro-internal-api.kakaopay.com"
+  },
+  "alipay": {
+    "api": "https://sandbox-wakanda-alipay-transfer-app.kakaopay.com"
+  }
+}
