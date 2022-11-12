@@ -1,0 +1,4 @@
+rootProject.name = 'spring-study-default'
+
+include("practice-implementation-DI")
+include("study-spring-di")
