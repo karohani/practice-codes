@@ -1,0 +1,9 @@
+rootProject.name = 'JavaSpringExample'
+
+include("tobyspring:tobychapter6")
+include("study:spring-batch")
+include("study:unittest-practice")
+include("study:spring-mvc-practice")
+include("study:spring-core")
+include("study:spring-mvc")
+include("study:effective-java")
