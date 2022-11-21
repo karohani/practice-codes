@@ -1,0 +1,6 @@
+bootJar.enabled = false
+dependencies{
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'junit', module: 'junit' // exclude junit 4 api
+    }
+}
