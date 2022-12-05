@@ -1,5 +1,6 @@
 package com.karohani.example.mvc.controller;
 
+import jdk.jfr.Relational;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,4 +14,6 @@ public class TestPingPongController {
     public String pong(){
         return "";
     }
+
+    @Relational
 }
